@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/Header.css'
 export default function Header() {
     return (
-        <div>
+        <div className="head">
             <Navbar bg="dark" variant="dark">
                 <Container>
                 <Navbar.Brand href="/" className="br">We App Admin Panel</Navbar.Brand>

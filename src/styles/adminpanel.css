@@ -1,8 +1,10 @@
 .sidebar{
+    margin-top:56px ; 
     height: 100vh;
     width:20%;
     background-color: #212529;
     color: white;
+    position: fixed;
 }
 ul{
     list-style: none;
@@ -13,12 +15,37 @@ ul{
     flex-direction: row;
 }
 .b{
-    width:100%
+    width: 80%;
+    margin-left: 20%;
 }
 .c{
-    padding-left: 10%;
     padding-top:10%;
 }
 .y{
     margin-left:10%
+}
+.rp{
+    margin-left:3%;
+    margin-top:1%
+}
+.d{
+    padding:1%;
+    padding-top:3%;
+}
+.gg{
+    padding-top:1%;
+}
+.btdr{
+    margin-top:1%
+}
+.sbtr{
+    margin-top:1%
+}
+.ggs{
+    padding:5px;
+    margin-top:2%;
+    border: solid 1px black;
+}
+.gp{
+    margin-top:2%;
 }
