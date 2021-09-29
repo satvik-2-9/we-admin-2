@@ -1,0 +1,24 @@
+.sidebar{
+    height: 100vh;
+    width:20%;
+    background-color: #212529;
+    color: white;
+}
+ul{
+    list-style: none;
+    line-height:600%;
+}
+.panel{
+    display: flex;
+    flex-direction: row;
+}
+.b{
+    width:100%
+}
+.c{
+    padding-left: 10%;
+    padding-top:10%;
+}
+.y{
+    margin-left:10%
+}
