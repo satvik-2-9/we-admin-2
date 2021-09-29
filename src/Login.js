@@ -41,7 +41,7 @@ export default function Login() {
             <input type="text" id="lname" name="lname" onChange={(e)=>setPassword(e.target.value)} />
             </div>
             <Button variant="dark" type="submit" onClick={handleLogin} className="lgbt">
-                Submit
+                Login
             </Button>
            
         </div>
