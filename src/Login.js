@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React,{useState} from 'react'
 import { Button } from 'react-bootstrap'
 import { useHistory } from 'react-router';
@@ -8,7 +9,8 @@ export default function Login() {
     const [password, setPassword] = useState(); 
     
     function handleLogin() {
-        /*         axios.post('https://wewallet.herokuapp.com/admin-login', {
+        /*        
+        axios.post('https://wewallet.herokuapp.com/admin-login', {
             id: id,
             password:password
         })
@@ -22,7 +24,15 @@ export default function Login() {
             })
         }, (e) => {
             console.log(e);
-        }) */
+        });        
+        
+        axios.get('https://wewallet.herokuapp.com/create-admin-wallet')
+            .then((res) => {
+                console.log('successfully created admin wallet');
+            }, (e) => {
+                console.log(e);
+            });
+ */
         history.push({
             pathname: './adminpanel',
             state: {

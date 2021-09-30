@@ -33,7 +33,8 @@ ul{
     padding-top:3%;
 }
 .gg{
-    padding-top:1%;
+    padding: 1%;
+    margin-top: 1%;
     border: solid 1px black;
 }
 .btdr{
@@ -49,4 +50,12 @@ ul{
 }
 .gp{
     margin-top:2%;
+}
+.k{
+    font-family:monospace;
+}
+.wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
