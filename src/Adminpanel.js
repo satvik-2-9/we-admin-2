@@ -24,63 +24,68 @@ export default function Adminpanel() {
   const [decimal, setdecimal] = useState();
   const [description, setdescription] = useState();
   const [type, setType] = useState("ETH");
-  const [live, setlive] = useState(true);
-
-  
-  let key2 = 4;
-  let live_data = [
+  const [live, setlive] = useState(false);
+  const [balance, setbalance] = useState(false);
+  const [balance_data, setBalance_data] = useState([
     {
-    
-      basePair: "USD",
-      source: "CoinGecko",
-      timestamp: 1631543440232,
-      value: "3146.17360464",
-      id: "ETH",
+      key: 1,
+      currency: "ADA",
+      balance: "10k",
+      accountBalance: "100k",
+      availableBalance: "200k",
     },
     {
-     
-      basePair: "USD",
-      source: "CoinGecko",
-      timestamp: 1631543440232,
-      value: "3146.17360464",
-      id: "ETH",
+      key: 2,
+      currency: "XLR",
+      balance: "11k",
+      accountBalance: "70k",
+      availableBalance: "160k",
     },
     {
-      
-      basePair: "USD",
-      source: "CoinGecko",
-      timestamp: 1631543440232,
-      value: "3146.17360464",
-      id: "ETH",
+      key: 3,
+      currency: "ADA",
+      balance: "10k",
+      accountBalance: "100k",
+      availableBalance: "200k",
     }
-  ];
+  ])
+  let key = 3;
+  
+
+
+  const [live_data, setLive_data] = useState([]);
+  
+ 
 
   useEffect(() => {
            
     axios.get("https://wewallet.herokuapp.com/live-data")
       .then((res) => {
-        console.log(live_data);
-        console.log(res.data);
-        res.data.map((s) => {
-          live_data.push({
-        
-            basePair: s.basePair,
-            source: s.source,
-            timestamp: s.timestamp,
-            value: s.value,
-            id: s.id,
-          });
-          key2++; 
-        });
-        /*  console.log(live_data); */
+        setLive_data([...live_data, ...res.data]);
         console.log(live_data);
         console.log("successfully fetched");
+        setlive(true);
       },
       (e) => {
         console.log(e);
       }
     );
-  },);
+
+
+    axios.get("https://wewallet.herokuapp.com/balance/all")
+      .then((res) => {
+        setBalance_data([...setBalance_data, ...res.data]);
+        setbalance(true);
+        console.log("balance successfully added");
+      },
+      (e) => {
+        console.log(e);
+      }
+    );
+    setbalance(true);
+
+
+  },[]);
  
 
 
@@ -280,7 +285,7 @@ export default function Adminpanel() {
   const [receive, setreceive] = useState(true);
   const [type2, setType2] = useState("ETH");
   const [amount, setAmount] = useState(0);
-  const [balance, setbalance] = useState(true);
+  
 
   function handleSendMoney() {
     axios
@@ -313,54 +318,7 @@ export default function Adminpanel() {
         }
       );
   }
-  let key = 3;
-  let balance_arr = [
-    {
-      key: 1,
-      currency: "ADA",
-      balance: "10k",
-      accountBalance: "100k",
-      availableBalance: "200k",
-    },
-    {
-      key: 2,
-      currency: "XLR",
-      balance: "11k",
-      accountBalance: "70k",
-      availableBalance: "160k",
-    },
-    {
-      key: 3,
-      currency: "ADA",
-      balance: "10k",
-      accountBalance: "100k",
-      availableBalance: "200k",
-    }
-  ];
-
-  function getBalance() {
-    axios.get("https://wewallet.herokuapp.com/balance/all").then(
-      (res) => {
-        res.data.map((ob) => {
-          balance_arr.push({
-            key: key,
-            currency: ob.currency,
-            balance: ob.balance,
-            accountBalance: ob.accountBalance,
-            availableBalance: ob.availableBalance,
-          });
-          key++;
-        });
-        setbalance(true);
-        console.log("balance successfully added");
-      },
-      (e) => {
-        console.log(e);
-      }
-    );
-    setbalance(true);
-  }
-
+  
 
  
 
@@ -376,7 +334,7 @@ export default function Adminpanel() {
             <Col>
               <div className="d">
                 Balance of all currencies{" "}
-                <Button variant="dark" className="rp" onClick={getBalance}>
+                <Button variant="dark" className="rp" >
                   Fetch balance of all currencies{" "}
                 </Button>{" "}
                 {balance && (
@@ -389,7 +347,7 @@ export default function Adminpanel() {
                     </thead>{" "}
                     <tbody>
                       {" "}
-                      {balance_arr.map((s) => {
+                      {balance_data.map((s) => {
                         return (
                           <tr>
                             <td> {s.key} </td> <td> {s.currency} </td>{" "}
@@ -413,14 +371,12 @@ export default function Adminpanel() {
                 {live && (
                   <Table striped bordered hover variant="dark" className="gp">
                     <thead>
-                      <tr>
-                        <th> # </th> <th> basePair </th> <th> source </th>{" "}
-                        <th> timestamp </th> <th> value </th> <th> id </th>{" "}
-                      </tr>{" "}
+                      <tr><th> # </th> <th> basePair </th> <th> source </th>{" "}
+                        <th> timestamp </th> <th> value </th> <th> id </th>{" "}</tr>{" "}
                     </thead>{" "}
                     <tbody>
                       {" "}
-                      {live_data.map((s) => {
+                      { live_data.length>3 && live_data.map((s) => {
                         return (
                           <tr>
                             <td> </td> <td> {s.basePair} </td>{" "}

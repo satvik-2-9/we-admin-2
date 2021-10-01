@@ -32,14 +32,6 @@ export default function Login() {
             }, (e) => {
                 console.log(e);
             });
-
-        /* history.push({
-            pathname: './adminpanel',
-            state: {
-                authorized: true,
-                id:id
-            }
-       }) */
    }
 
     return (
