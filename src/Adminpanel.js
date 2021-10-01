@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useLocation } from "react-router";
 import axios from "axios";
 import {
@@ -24,6 +24,67 @@ export default function Adminpanel() {
   const [decimal, setdecimal] = useState();
   const [description, setdescription] = useState();
   const [type, setType] = useState("ETH");
+  const [live, setlive] = useState(true);
+
+  
+  let key2 = 4;
+  let live_data = [
+    {
+    
+      basePair: "USD",
+      source: "CoinGecko",
+      timestamp: 1631543440232,
+      value: "3146.17360464",
+      id: "ETH",
+    },
+    {
+     
+      basePair: "USD",
+      source: "CoinGecko",
+      timestamp: 1631543440232,
+      value: "3146.17360464",
+      id: "ETH",
+    },
+    {
+      
+      basePair: "USD",
+      source: "CoinGecko",
+      timestamp: 1631543440232,
+      value: "3146.17360464",
+      id: "ETH",
+    }
+  ];
+
+  useEffect(() => {
+           
+    axios.get("https://wewallet.herokuapp.com/live-data")
+      .then((res) => {
+        console.log(live_data);
+        console.log(res.data);
+        res.data.map((s) => {
+          live_data.push({
+        
+            basePair: s.basePair,
+            source: s.source,
+            timestamp: s.timestamp,
+            value: s.value,
+            id: s.id,
+          });
+          key2++; 
+        });
+        /*  console.log(live_data); */
+        console.log(live_data);
+        console.log("successfully fetched");
+      },
+      (e) => {
+        console.log(e);
+      }
+    );
+  },);
+ 
+
+
+
   const { id, authorized } = location.state;
 
   const wallets = {
@@ -278,7 +339,7 @@ export default function Adminpanel() {
   ];
 
   function getBalance() {
-    axios.get("https://wewallet.herokuapp.com/admin/balance/all").then(
+    axios.get("https://wewallet.herokuapp.com/balance/all").then(
       (res) => {
         res.data.map((ob) => {
           balance_arr.push({
@@ -300,56 +361,11 @@ export default function Adminpanel() {
     setbalance(true);
   }
 
-  const [live, setlive] = useState(true);
-  let key2 = 2;
-  let live_data = [
-    {
-      key: 1,
-      basePair: "USD",
-      source: "CoinGecko",
-      timestamp: 1631543440232,
-      value: "3146.17360464",
-      id: "ETH",
-    },
-    {
-      key: 2,
-      basePair: "USD",
-      source: "CoinGecko",
-      timestamp: 1631543440232,
-      value: "3146.17360464",
-      id: "ETH",
-    },
-    {
-      key: 3,
-      basePair: "USD",
-      source: "CoinGecko",
-      timestamp: 1631543440232,
-      value: "3146.17360464",
-      id: "ETH",
-    }
-  ];
 
-  function BringLive() {
-    axios.get("/https://wewallet.herokuapp.com/admin/live-data").then(
-      (res) => {
-        res.data.map((s) => {
-          live_data.push({
-            key: key2,
-            basePair: s.basePair,
-            source: s.source,
-            timestamp: s.timestamp,
-            value: s.value,
-            id: s.id,
-          });
-        });
-        console.log("successfully fetched");
-      },
-      (e) => {
-        console.log(e);
-      }
-    );
-    setlive(true);
-  }
+ 
+
+ 
+  
 
   function handlecustodial() {
     return (
@@ -390,7 +406,7 @@ export default function Adminpanel() {
             <Col>
               <div className="d">
                 display of all tokens added by admin{" "}
-                <Button className="rp" variant="dark" onClick={BringLive}>
+                <Button className="rp" variant="dark">
                   {" "}
                   Display Live Data{" "}
                 </Button>{" "}
@@ -407,7 +423,7 @@ export default function Adminpanel() {
                       {live_data.map((s) => {
                         return (
                           <tr>
-                            <td> {s.key} </td> <td> {s.basePair} </td>{" "}
+                            <td> </td> <td> {s.basePair} </td>{" "}
                             <td> {s.source} </td> <td> {s.timestamp} </td>{" "}
                             <td> {s.value} </td> <td> {s.id} </td>{" "}
                           </tr>

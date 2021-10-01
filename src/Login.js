@@ -9,7 +9,7 @@ export default function Login() {
     const [password, setPassword] = useState(); 
     
     function handleLogin() {
-        /*        
+               
         axios.post('https://wewallet.herokuapp.com/admin-login', {
             id: id,
             password:password
@@ -32,14 +32,14 @@ export default function Login() {
             }, (e) => {
                 console.log(e);
             });
- */
-        history.push({
+
+        /* history.push({
             pathname: './adminpanel',
             state: {
                 authorized: true,
                 id:id
             }
-       })
+       }) */
    }
 
     return (
