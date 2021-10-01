@@ -260,6 +260,13 @@ export default function Adminpanel() {
       accountBalance: "70k",
       availableBalance: "160k",
     },
+    {
+      key: 3,
+      currency: "ADA",
+      balance: "10k",
+      accountBalance: "100k",
+      availableBalance: "200k",
+    }
   ];
 
   function getBalance() {
@@ -297,13 +304,21 @@ export default function Adminpanel() {
       id: "ETH",
     },
     {
-      key: 1,
+      key: 2,
       basePair: "USD",
       source: "CoinGecko",
       timestamp: 1631543440232,
       value: "3146.17360464",
       id: "ETH",
     },
+    {
+      key: 3,
+      basePair: "USD",
+      source: "CoinGecko",
+      timestamp: 1631543440232,
+      value: "3146.17360464",
+      id: "ETH",
+    }
   ];
 
   function BringLive() {

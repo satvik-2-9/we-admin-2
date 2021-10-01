@@ -77,3 +77,7 @@ ul{
 .cl{
     background-color: white;
 }
+.table>:not(:last-child)>:last-child>* {
+    border-bottom-color: currentColor;
+    white-space: nowrap;
+}
