@@ -1,7 +1,9 @@
-.login{
-    width:75%;
-    padding-left: 25%;
-    padding-top:10%;
+.login {
+    width: 100%;
+    /* padding-left: 25%; */
+    padding-top: 10%;
+    background-color: #F7F6F2;
+    height: 100vh;
 }
 .lgbt{
     margin-top:5%;
