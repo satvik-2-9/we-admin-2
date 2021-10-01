@@ -135,7 +135,9 @@ export default function Adminpanel() {
         <h3 className="k"> App Setup </h3>{" "}
         <div className="wrap">
           <div className="d">
-            <div>
+            <Row>
+            <Col>
+            
               <Button
                 onClick={() => setSetup(!setup)}
                 variant="dark"
@@ -170,13 +172,19 @@ export default function Adminpanel() {
                   </Button>
                 </Form>
               )}{" "}
-            </div>{" "}
-          </div>{" "}
+                
+            </Col>
+              
+        
+          <Col>
           <Button onClick={GenerateAddress} variant="dark">
             {" "}
             Setup bnb, xrp, xlm addresses{" "}
           </Button>
+          </Col>
+          </Row>
         </div>{" "}
+        </div>
       </div>
     );
   }
