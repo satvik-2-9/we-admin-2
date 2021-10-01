@@ -17,7 +17,7 @@ export default function Adminpanel() {
   const [signature_id, setID] = useState("");
   const [address, setAdress] = useState("");
   const [xpub, setxpub] = useState();
-  const [g, setg] = useState(false);
+  const [g, setg] = useState(true);
   const location = useLocation();
   const [symbols, setsymbols] = useState();
   const [contact, setcontact] = useState();
@@ -207,8 +207,8 @@ export default function Adminpanel() {
         }
       );
   }
-  const [send, setsend] = useState(false);
-  const [receive, setreceive] = useState(false);
+  const [send, setsend] = useState(true);
+  const [receive, setreceive] = useState(true);
   const [type2, setType2] = useState("ETH");
   const [amount, setAmount] = useState(0);
   const [balance, setbalance] = useState(true);
@@ -400,11 +400,13 @@ export default function Adminpanel() {
           <Col>
           <div className="d">
             Send or Receive money{" "}
-            <div>
+            
+            <Row>
+            <Col>
               <Button
                 variant="dark"
                 className="rp"
-                onClick={() => setsend(!send)}
+                onClick={() => setsend(true)}
               >
                 send{" "}
               </Button>{" "}
@@ -444,12 +446,13 @@ export default function Adminpanel() {
                   </Button>{" "}
                 </Form>
               )}{" "}
-            </div>{" "}
+            </Col>
+            <Col>
             <div>
               <Button
                 variant="dark"
                 className="rp"
-                onClick={() => setreceive(!receive)}
+                onClick={() => setreceive(true)}
               >
                 receive{" "}
               </Button>{" "}
@@ -490,12 +493,14 @@ export default function Adminpanel() {
                 </Form>
               )}{" "}
             </div>{" "}
-          </div>{" "}
+          </Col>
+              </Row>
+              </div>
           </Col>
           <Col>
           <div className="d">
             Functionality for adding tokens in ecosystem{" "}
-            <Button variant="dark" className="rp" onClick={() => setg(!g)}>
+            <Button variant="dark" className="rp" onClick={() => setg(true)}>
               Add Custom token{" "}
             </Button>{" "}
             {g && (
