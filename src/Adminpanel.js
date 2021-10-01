@@ -211,7 +211,7 @@ export default function Adminpanel() {
   const [receive, setreceive] = useState(false);
   const [type2, setType2] = useState("ETH");
   const [amount, setAmount] = useState(0);
-  const [balance, setbalance] = useState(false);
+  const [balance, setbalance] = useState(true);
 
   function handleSendMoney() {
     axios
@@ -282,10 +282,10 @@ export default function Adminpanel() {
         console.log(e);
       }
     );
-    setbalance(!balance);
+    setbalance(true);
   }
 
-  const [live, setlive] = useState(false);
+  const [live, setlive] = useState(true);
   let key2 = 2;
   let live_data = [
     {
@@ -296,6 +296,14 @@ export default function Adminpanel() {
       value: "3146.17360464",
       id: "ETH",
     },
+    {
+      key: 1,
+      basePair: "USD",
+      source: "CoinGecko",
+      timestamp: 1631543440232,
+      value: "3146.17360464",
+      id: "ETH",
+    }
   ];
 
   function BringLive() {
@@ -317,7 +325,7 @@ export default function Adminpanel() {
         console.log(e);
       }
     );
-    setlive(!live);
+    setlive(true);
   }
 
   function handlecustodial() {
@@ -325,6 +333,71 @@ export default function Adminpanel() {
       <div className="c">
         <h3 className="k"> Custodial Wallet </h3>{" "}
         <div className="wrap">
+         <Row className="rw">
+         <Col> 
+        <div className="d">
+            Balance of all currencies{" "}
+            <Button variant="dark" className="rp" onClick={getBalance}>
+              Fetch balance of all currencies{" "}
+            </Button>{" "}
+            {balance && (
+              <Table striped bordered hover variant="dark" className="gp">
+                <thead>
+                  <tr>
+                    <th> # </th> <th> Currency </th> <th> Balance </th>{" "}
+                    <th> Account Balance </th> <th> Available Balance </th>{" "}
+                  </tr>{" "}
+                </thead>{" "}
+                <tbody>
+                  {" "}
+                  {balance_arr.map((s) => {
+                    return (
+                      <tr>
+                        <td> {s.key} </td> <td> {s.currency} </td>{" "}
+                        <td> {s.balance} </td> <td> {s.accountBalance} </td>{" "}
+                        <td> {s.availableBalance} </td>{" "}
+                      </tr>
+                    );
+                  })}{" "}
+                </tbody>{" "}
+              </Table>
+            )}{" "}
+          </div>
+          </Col>
+          <Col>
+          <div className="d">
+            display of all tokens added by admin{" "}
+            <Button className="rp" variant="dark" onClick={BringLive}>
+              {" "}
+              Display Live Data{" "}
+            </Button>{" "}
+            {live && (
+              <Table striped bordered hover variant="dark" className="gp">
+                <thead>
+                  <tr>
+                    <th> # </th> <th> basePair </th> <th> source </th>{" "}
+                    <th> timestamp </th> <th> value </th> <th> id </th>{" "}
+                  </tr>{" "}
+                </thead>{" "}
+                <tbody>
+                  {" "}
+                  {live_data.map((s) => {
+                    return (
+                      <tr>
+                        <td> {s.key} </td> <td> {s.basePair} </td>{" "}
+                        <td> {s.source} </td> <td> {s.timestamp} </td>{" "}
+                        <td> {s.value} </td> <td> {s.id} </td>{" "}
+                      </tr>
+                    );
+                  })}{" "}
+                </tbody>{" "}
+              </Table>
+            )}{" "}
+          </div>
+          </Col>
+          </Row>
+          <Row className="rw">
+          <Col>
           <div className="d">
             Send or Receive money{" "}
             <div>
@@ -418,34 +491,8 @@ export default function Adminpanel() {
               )}{" "}
             </div>{" "}
           </div>{" "}
-          <div className="d">
-            Balance of all currencies{" "}
-            <Button variant="dark" className="rp" onClick={getBalance}>
-              Fetch balance of all currencies{" "}
-            </Button>{" "}
-            {balance && (
-              <Table striped bordered hover variant="dark" className="gp">
-                <thead>
-                  <tr>
-                    <th> # </th> <th> Currency </th> <th> Balance </th>{" "}
-                    <th> Account Balance </th> <th> Available Balance </th>{" "}
-                  </tr>{" "}
-                </thead>{" "}
-                <tbody>
-                  {" "}
-                  {balance_arr.map((s) => {
-                    return (
-                      <tr>
-                        <td> {s.key} </td> <td> {s.currency} </td>{" "}
-                        <td> {s.balance} </td> <td> {s.accountBalance} </td>{" "}
-                        <td> {s.availableBalance} </td>{" "}
-                      </tr>
-                    );
-                  })}{" "}
-                </tbody>{" "}
-              </Table>
-            )}{" "}
-          </div>{" "}
+          </Col>
+          <Col>
           <div className="d">
             Functionality for adding tokens in ecosystem{" "}
             <Button variant="dark" className="rp" onClick={() => setg(!g)}>
@@ -454,7 +501,7 @@ export default function Adminpanel() {
             {g && (
               <div>
                 <Form className="gg" onSubmit={handleSubmit}>
-                  <Row>
+                  <Row >
                     <Col>
                       <Form.Control
                         placeholder="symbol"
@@ -513,36 +560,10 @@ export default function Adminpanel() {
               </div>
             )}{" "}
           </div>{" "}
-          <div className="d">
-            display of all tokens added by admin{" "}
-            <Button className="rp" variant="dark" onClick={BringLive}>
-              {" "}
-              Display Live Data{" "}
-            </Button>{" "}
-            {live && (
-              <Table striped bordered hover variant="dark" className="gp">
-                <thead>
-                  <tr>
-                    <th> # </th> <th> basePair </th> <th> source </th>{" "}
-                    <th> timestamp </th> <th> value </th> <th> id </th>{" "}
-                  </tr>{" "}
-                </thead>{" "}
-                <tbody>
-                  {" "}
-                  {live_data.map((s) => {
-                    return (
-                      <tr>
-                        <td> {s.key} </td> <td> {s.basePair} </td>{" "}
-                        <td> {s.source} </td> <td> {s.timestamp} </td>{" "}
-                        <td> {s.value} </td> <td> {s.id} </td>{" "}
-                      </tr>
-                    );
-                  })}{" "}
-                </tbody>{" "}
-              </Table>
-            )}{" "}
-          </div>{" "}
+          </Col>
+          </Row>
         </div>{" "}
+          
         {/* <div className="d">multiple wallet functionality</div>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <div className="d">rewards mechanisms and settings</div> */}{" "}
       </div>
@@ -614,10 +635,10 @@ export default function Adminpanel() {
     <div className="panel">
       <div className="sidebar">
         {" "}
-        <ul>
-          <li onClick={() => setCurrent("app setup")}> App setup </li>{" "}
-          <li onClick={() => setCurrent("custodial")}> custodial wallet </li>{" "}
-          <li onClick={() => setCurrent("analytics")}> Analytics </li>{" "}
+        <ul className="list">
+          <li > <Button variant ="secondary" className="btsd"  onClick={() => setCurrent("app setup")}> App setup </Button> </li>{" "}
+          <li><Button variant ="secondary" className="btsd" onClick={() => setCurrent("custodial")}> custodial wallet</Button> </li>{" "}
+          <li><Button variant ="secondary" className="btsd" onClick={() => setCurrent("analytics")}> Analytics</Button> </li>{" "}
         </ul>{" "}
       </div>{" "}
       <div className="b">

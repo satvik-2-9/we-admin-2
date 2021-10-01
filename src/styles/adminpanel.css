@@ -15,11 +15,14 @@ ul{
     flex-direction: row;
 }
 .b{
+    margin-top:56px;
     width: 80%;
     margin-left: 20%;
 }
 .c{
+    background-color:wheat;
     padding-top:10%;
+    height: 100vh;
 }
 .y{
     margin-left:10%
@@ -29,6 +32,7 @@ ul{
     margin-top:1%
 }
 .d{
+    
     padding:1%;
     padding-top:3%;
 }
@@ -58,4 +62,17 @@ ul{
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.list{
+    padding-left: 0;
+}
+.btsd{
+    background-color:#212529 ;
+}
+.rw{
+   
+    margin-top: 1%;   
+}
+.cl{
+    background-color: white;
 }
