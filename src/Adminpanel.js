@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router";
 import axios from "axios";
 import {
@@ -47,20 +47,28 @@ export default function Adminpanel() {
       balance: "10k",
       accountBalance: "100k",
       availableBalance: "200k",
-    }
-  ])
-  let key = 3;
-  
-
+    },
+  ]);
 
   const [live_data, setLive_data] = useState([]);
-  
+
+  const [analytic, setAnalytic] = useState(true);
+  const [analytics_data,setAnalytics_data] = useState([
+    {
+      key: 1,
+      Account_Number: "ABCX109YT789",
+      currency: "XLR",
+      Balance: "10k",
+      Loan: "80k",
+      Duration: "3 years",
+    },
+  ]);
+
  
 
   useEffect(() => {
-           
-    axios.get("https://wewallet.herokuapp.com/live-data")
-      .then((res) => {
+    axios.get("https://wewallet.herokuapp.com/live-data").then(
+      (res) => {
         setLive_data([...live_data, ...res.data]);
         console.log(live_data);
         console.log("successfully fetched");
@@ -71,9 +79,8 @@ export default function Adminpanel() {
       }
     );
 
-
-    axios.get("https://wewallet.herokuapp.com/balance/all")
-      .then((res) => {
+    axios.get("https://wewallet.herokuapp.com/balance/all").then(
+      (res) => {
         setBalance_data([...setBalance_data, ...res.data]);
         setbalance(true);
         console.log("balance successfully added");
@@ -83,12 +90,20 @@ export default function Adminpanel() {
       }
     );
     setbalance(true);
+     
+    axios.post("https://wewallet.herokuapp.com/analytics")
+      .then((res) => {
+        /* map throught data and push them in analytics data */
+        setAnalytics_data([...analytics_data, ...res.data]);
+        console.log("successfully fetched data");
+      },
+      (e) => {
+        console.log(e);
+      }
+    );
+    setAnalytic(true);
 
-
-  },[]);
- 
-
-
+  }, []);
 
   const { id, authorized } = location.state;
 
@@ -202,54 +217,51 @@ export default function Adminpanel() {
         <div className="wrap">
           <div className="d">
             <Row>
-            <Col>
-            
-              <Button
-                onClick={() => setSetup(!setup)}
-                variant="dark"
-                className="y"
-              >
-                Setup new wallet{" "}
-              </Button>{" "}
-              {setup && (
-                <Form className="ggs" onSubmit={handleSetup}>
-                  <Row>
-                    <Col>
-                      <Form.Control
-                        onChange={(e) => setcurrency(e.target.value)}
-                        placeholder="currency"
-                      ></Form.Control>
-                    </Col>
-                    <Col>
-                      <Form.Control
-                        onChange={(e) => setID(e.target.value)}
-                        placeholder="Signature ID"
-                      ></Form.Control>
-                    </Col>
-                    <Col>
-                      <Form.Control
-                        onChange={(e) => setcurrency(e.target.value)}
-                        placeholder="currency"
-                      ></Form.Control>
-                    </Col>
-                  </Row>
-                  <Button type="submit" variant="primary" className="sbtr">
-                    setup
-                  </Button>
-                </Form>
-              )}{" "}
-                
-            </Col>
-              
-        
-          <Col>
-          <Button onClick={GenerateAddress} variant="dark">
-            {" "}
-            Setup bnb, xrp, xlm addresses{" "}
-          </Button>
-          </Col>
-          </Row>
-        </div>{" "}
+              <Col>
+                <Button
+                  onClick={() => setSetup(!setup)}
+                  variant="dark"
+                  className="y"
+                >
+                  Setup new wallet{" "}
+                </Button>{" "}
+                {setup && (
+                  <Form className="ggs" onSubmit={handleSetup}>
+                    <Row>
+                      <Col>
+                        <Form.Control
+                          onChange={(e) => setcurrency(e.target.value)}
+                          placeholder="currency"
+                        ></Form.Control>
+                      </Col>
+                      <Col>
+                        <Form.Control
+                          onChange={(e) => setID(e.target.value)}
+                          placeholder="Signature ID"
+                        ></Form.Control>
+                      </Col>
+                      <Col>
+                        <Form.Control
+                          onChange={(e) => setcurrency(e.target.value)}
+                          placeholder="currency"
+                        ></Form.Control>
+                      </Col>
+                    </Row>
+                    <Button type="submit" variant="primary" className="sbtr">
+                      setup
+                    </Button>
+                  </Form>
+                )}{" "}
+              </Col>
+
+              <Col>
+                <Button onClick={GenerateAddress} variant="dark">
+                  {" "}
+                  Setup bnb, xrp, xlm addresses{" "}
+                </Button>
+              </Col>
+            </Row>
+          </div>{" "}
         </div>
       </div>
     );
@@ -285,7 +297,6 @@ export default function Adminpanel() {
   const [receive, setreceive] = useState(true);
   const [type2, setType2] = useState("ETH");
   const [amount, setAmount] = useState(0);
-  
 
   function handleSendMoney() {
     axios
@@ -318,12 +329,6 @@ export default function Adminpanel() {
         }
       );
   }
-  
-
- 
-
- 
-  
 
   function handlecustodial() {
     return (
@@ -334,7 +339,7 @@ export default function Adminpanel() {
             <Col>
               <div className="d">
                 Balance of all currencies{" "}
-                <Button variant="dark" className="rp" >
+                <Button variant="dark" className="rp">
                   Fetch balance of all currencies{" "}
                 </Button>{" "}
                 {balance && (
@@ -371,20 +376,23 @@ export default function Adminpanel() {
                 {live && (
                   <Table striped bordered hover variant="dark" className="gp">
                     <thead>
-                      <tr><th> # </th> <th> basePair </th> <th> source </th>{" "}
-                        <th> timestamp </th> <th> value </th> <th> id </th>{" "}</tr>{" "}
+                      <tr>
+                        <th> # </th> <th> basePair </th> <th> source </th>{" "}
+                        <th> timestamp </th> <th> value </th> <th> id </th>{" "}
+                      </tr>{" "}
                     </thead>{" "}
                     <tbody>
                       {" "}
-                      { live_data.length>3 && live_data.map((s) => {
-                        return (
-                          <tr>
-                            <td> </td> <td> {s.basePair} </td>{" "}
-                            <td> {s.source} </td> <td> {s.timestamp} </td>{" "}
-                            <td> {s.value} </td> <td> {s.id} </td>{" "}
-                          </tr>
-                        );
-                      })}{" "}
+                      {live_data.length > 3 &&
+                        live_data.map((s) => {
+                          return (
+                            <tr>
+                              <td> </td> <td> {s.basePair} </td>{" "}
+                              <td> {s.source} </td> <td> {s.timestamp} </td>{" "}
+                              <td> {s.value} </td> <td> {s.id} </td>{" "}
+                            </tr>
+                          );
+                        })}{" "}
                     </tbody>{" "}
                   </Table>
                 )}{" "}
@@ -417,7 +425,7 @@ export default function Adminpanel() {
                             <DropdownButton
                               id="dropdown-basic-button"
                               title={type2}
-                              variant="dark"
+                              variant="info"
                               className="btdr"
                             >
                               <Dropdown.Item onClick={() => setType2("ETH")}>
@@ -463,7 +471,7 @@ export default function Adminpanel() {
                               <DropdownButton
                                 id="dropdown-basic-button"
                                 title={type2}
-                                variant="dark"
+                                variant="info"
                                 className="btdr"
                               >
                                 <Dropdown.Item onClick={() => setType2("ETH")}>
@@ -538,7 +546,7 @@ export default function Adminpanel() {
                           <DropdownButton
                             id="dropdown-basic-button"
                             title={type}
-                            variant="dark"
+                            variant="info"
                             className="btdr"
                           >
                             <Dropdown.Item onClick={() => setType("ETH")}>
@@ -571,30 +579,7 @@ export default function Adminpanel() {
       </div>
     );
   }
-  const [analytic, setAnalytic] = useState(false);
-  var analytics_data = [
-    {
-      key: 1,
-      Account_Number: "ABCX109YT789",
-      currency: "XLR",
-      Balance: "10k",
-      Loan: "80k",
-      Duration: "3 years",
-    },
-  ];
-
-  function bringAnalytics() {
-    axios.post("https://wewallet.herokuapp.com/analytics").then(
-      (res) => {
-        /* map throught data and push them in analytics data */
-        console.log("successfully fetched data");
-      },
-      (e) => {
-        console.log(e);
-      }
-    );
-    setAnalytic(!analytic);
-  }
+  
 
   function handleanalytics() {
     return (
@@ -603,7 +588,7 @@ export default function Adminpanel() {
           <h3 className="k">Analytics</h3>
           <div className="d">
             <div>
-              <Button variant="dark" onClick={bringAnalytics}>
+              <Button variant="dark" >
                 {" "}
                 Get Analytics{" "}
               </Button>
