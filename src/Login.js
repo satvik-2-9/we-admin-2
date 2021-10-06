@@ -15,7 +15,7 @@ export default function Login() {
             password:"StrongPassword#007"
         })
         .then((res) => {
-            console.log(res.Cookies);    
+            console.log(res);    
             history.push({
                 pathname: '/adminpanel',
                 state: {
