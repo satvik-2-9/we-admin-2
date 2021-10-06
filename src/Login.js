@@ -11,10 +11,11 @@ export default function Login() {
     function handleLogin() {
                
         axios.post('https://wewallet.herokuapp.com/admin-login', {
-            id: id,
-            password:password
+            id: "615c8d630307311c64879f60",
+            password:"StrongPassword#007"
         })
-        .then(() => {
+        .then((res) => {
+            console.log(res.Cookies);    
             history.push({
                 pathname: '/adminpanel',
                 state: {
