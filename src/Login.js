@@ -3,11 +3,22 @@ import React,{useState} from 'react'
 import { Button } from 'react-bootstrap'
 import { useHistory } from 'react-router';
 import './styles/login.css'
+import Cookies from 'js-cookie';
 export default function Login() {
     let history = useHistory();
     const [id, setID] = useState();
     const [password, setPassword] = useState(); 
-    
+    var jwt; 
+    axios.interceptors.request.use(
+        config => {
+          config.headers.authorization = `Bearer ${jwt}`;
+          return config; 
+        },
+        e => {
+          return Promise.reject(e)
+        }
+       ) 
+
     function handleLogin() {
                
         axios.post('https://wewallet.herokuapp.com/admin-login', {
@@ -15,12 +26,14 @@ export default function Login() {
             password:"StrongPassword#007"
         })
         .then((res) => {
-            console.log(res);    
+
+            jwt = res.data.jwt;
             history.push({
                 pathname: '/adminpanel',
                 state: {
                   authorized:true,
-                  id: id
+                  id: id,
+                  jwt:res.data.jwt
                 },
             })
         }, (e) => {

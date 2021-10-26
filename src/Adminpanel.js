@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router";
 import axios from "axios";
+import Cookies from "universal-cookie";
 import {
   Button,
   Form,
@@ -11,6 +12,8 @@ import {
   Table,
 } from "react-bootstrap";
 import "./styles/adminpanel.css";
+
+const cookies = new Cookies();
 export default function Adminpanel() {
   const [current, setCurrent] = useState("app setup");
   const [currency, setcurrency] = useState("");
@@ -63,15 +66,24 @@ export default function Adminpanel() {
       Duration: "3 years",
     },
   ]);
+  const { id, authorized,jwt} = location.state;
+  
 
- 
+
+  /* const authAxios = axios.create({
+    baseUrl: "https://wewallet.herokuapp.com",
+    headers: {
+      Authorization: `Bearer ${jwt}`
+    }
+  }); */
+
 
   useEffect(() => {
-    axios.get("https://wewallet.herokuapp.com/live-data").then(
+
+    cookies.set('jwt', jwt, { path: '/adminpanel' });
+    axios.get("https://wewallet.herokuapp.com/admin/balance/all").then(
       (res) => {
         setLive_data([...live_data, ...res.data]);
-        console.log(live_data);
-        console.log("successfully fetched");
         setlive(true);
       },
       (e) => {
@@ -79,8 +91,11 @@ export default function Adminpanel() {
       }
     );
 
-    axios.get("https://wewallet.herokuapp.com/balance/all").then(
-      (res) => {
+    axios.get("https://wewallet.herokuapp.com/admin/balance/all")
+      .then(
+        (res) => {
+        console.log("balance fetched");
+        console.log(res.data);
         setBalance_data([...setBalance_data, ...res.data]);
         setbalance(true);
         console.log("balance successfully added");
@@ -105,7 +120,6 @@ export default function Adminpanel() {
 
   }, []);
 
-  const { id, authorized } = location.state;
 
   const wallets = {
     currency: currency,
